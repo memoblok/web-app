@@ -1,0 +1,371 @@
+/* ==========================================================================
+   memoblok.com — site styles
+   Hand-written, no build step, no external requests.
+   Every colour literal lives in :root and is referenced by name below.
+   ========================================================================== */
+
+/* --- Fonts: self-hosted, latin subset. Do not link Google Fonts. ---------- */
+@font-face {
+  font-family: "Nunito Sans";
+  src: url(../fonts/NunitoSans-Regular.woff2) format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nunito Sans";
+  src: url(../fonts/NunitoSans-Bold.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Nunito Sans";
+  src: url(../fonts/NunitoSans-ExtraBold.woff2) format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Tokens -------------------------------------------------------------- */
+:root {
+  /* Palette */
+  --paper: #f3f1e9;
+  --white: #fff;
+  --ink: #3a3a3a;
+  --dim: #7a7a7f;        /* DarkGrey — 3.8:1 on Paper. Large/bold only. */
+  --dim-text: #5f5f66;   /* DarkGrey darkened to 5.6:1 — safe for body copy. */
+  --iris: #6e4fa8;
+  --iris-deep: #5b3f8e;  /* Iris pressed/hover state. */
+  --slab: #2b2a27;
+  --slab-dim: #c9c6be;
+  --hairline: rgba(58, 58, 58, 0.14);
+  --wash: rgba(120, 120, 128, 0.16);
+  --shadow: 0 4px 10px rgba(74, 58, 110, 0.1);
+
+  /* Pigments — feature cards / chips */
+  --clay: #de6e56;      --clay-text: #a8422c;      --clay-pale: #f7e1d9;
+  --marigold: #e8a33d;  --marigold-text: #96601a;  --marigold-pale: #faebd0;
+  --moss: #7ea96a;      --moss-text: #4c7040;      --moss-pale: #e5eedc;
+  --lagoon: #4fa8a2;    --lagoon-text: #2c6e6a;    --lagoon-pale: #dbecea;
+  --denim: #6e93c8;     --denim-text: #3d5f92;     --denim-pale: #e0e7f3;
+  --plum: #a183c4;      --plum-text: #6a4e91;      --plum-pale: #eae2f3;
+  --rosewood: #d97ba0;  --rosewood-text: #a6446c;  --rosewood-pale: #f7e0e8;
+  --cocoa: #b08968;     --cocoa-text: #7a5738;     --cocoa-pale: #efe4d9;
+
+  /* 4pt spacing grid */
+  --s-xs: 4px;  --s-sm: 8px;  --s-md: 12px; --s-lg: 16px;
+  --s-xl: 20px; --s-2xl: 24px; --s-3xl: 32px; --s-4xl: 48px;
+
+  /* Radius encodes role, not size */
+  --r-inner: 12px; --r-control: 16px; --r-card: 20px; --r-pill: 999px;
+
+  --gutter: 24px;
+  --maxw: 1080px;
+  --section: 96px;
+}
+
+@media (max-width: 768px) {
+  :root { --gutter: 20px; --section: 64px; }
+}
+
+/* --- Base ---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper) url(../img/grain.png) repeat;
+  background-size: 128px 128px;  /* the tile is only seamless at 128px */
+  color: var(--ink);
+  font: 400 17px/1.6 "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; }
+
+a { color: var(--iris); text-underline-offset: 2px; }
+a:hover { color: var(--iris-deep); }
+
+:focus-visible { outline: 2px solid var(--iris); outline-offset: 2px; border-radius: 4px; }
+
+h1, h2, h3 { margin: 0 0 var(--s-lg); }
+h1 { font-size: 48px; font-weight: 800; line-height: 1.1; letter-spacing: -0.5px; }
+h2 { font-size: 28px; font-weight: 800; line-height: 1.2; }
+h3 { font-size: 20px; font-weight: 700; line-height: 1.3; }
+p  { margin: 0 0 var(--s-lg); }
+p:last-child { margin-bottom: 0; }
+
+@media (max-width: 768px) {
+  h1 { font-size: 34px; }
+  h2 { font-size: 24px; }
+}
+
+.wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+
+.eyebrow {
+  font-size: 14px; font-weight: 800; line-height: 1.4;
+  letter-spacing: 0.4px; text-transform: uppercase;
+  color: var(--iris); margin: 0 0 var(--s-sm);
+}
+
+.lede { font-size: 19px; }
+.muted { color: var(--dim-text); }
+.small { font-size: 14px; line-height: 1.5; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--slab); color: #fff; padding: var(--s-md) var(--s-lg);
+  border-radius: 0 0 var(--r-inner) 0; z-index: 100; text-decoration: none;
+}
+.skip-link:focus { left: 0; color: #fff; }
+
+/* --- Surfaces ------------------------------------------------------------
+   Rule 1: every white surface gets a hairline; the border draws the shape,
+           the shadow only lifts it.
+   Rule 2: only content surfaces get a shadow. Controls are flat.
+   ------------------------------------------------------------------------ */
+.card {
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+  padding: var(--s-2xl);
+}
+
+.card h3 { margin-bottom: var(--s-sm); }
+.card p  { color: var(--dim-text); margin-bottom: 0; }
+
+.grid {
+  display: grid;
+  gap: var(--s-lg);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+/* --- Controls (flat: hairline, never a shadow) ---------------------------- */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--s-sm);
+  min-height: 48px; padding: 0 var(--s-xl);
+  border: 1px solid var(--iris); border-radius: var(--r-control);
+  background: var(--iris); color: #fff;
+  font-weight: 800; font-size: 17px; text-decoration: none;
+  transition: transform 50ms ease, background-color 120ms ease;
+}
+.btn:hover { background: var(--iris-deep); border-color: var(--iris-deep); color: #fff; }
+.btn:active { transform: scale(0.97); background: var(--iris-deep); }
+
+.btn-quiet {
+  background: transparent; color: var(--iris);
+  border-color: var(--hairline);
+}
+.btn-quiet:hover { background: var(--plum-pale); color: var(--iris-deep); border-color: var(--hairline); }
+
+/* Chips — flat, accent-filled surfaces set their border to their own fill. */
+.chip {
+  display: inline-flex; align-items: center; gap: var(--s-sm);
+  padding: 6px var(--s-md);
+  border-radius: var(--r-pill);
+  font-size: 14px; font-weight: 800; line-height: 1.5;
+  background: var(--plum-pale); border: 1px solid var(--plum-pale);
+  color: var(--iris);
+}
+
+/* --- Header / nav -------------------------------------------------------- */
+.site-header { border-bottom: 1px solid var(--hairline); }
+
+.site-header nav {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-lg); min-height: 72px;
+}
+
+.brand {
+  display: inline-flex; align-items: center; gap: var(--s-sm);
+  font-weight: 800; font-size: 19px; color: var(--ink); text-decoration: none;
+}
+.brand img { border-radius: 7px; }
+.brand:hover { color: var(--ink); }
+
+#nav-links {
+  display: flex; align-items: center; gap: var(--s-2xl);
+  list-style: none; margin: 0; padding: 0;
+}
+#nav-links a {
+  color: var(--ink); text-decoration: none; font-weight: 700; font-size: 16px;
+}
+#nav-links a:hover, #nav-links a[aria-current="page"] { color: var(--iris); }
+
+.nav-toggle {
+  display: none;
+  align-items: center; gap: var(--s-sm);
+  min-height: 44px; padding: 0 var(--s-lg);
+  background: transparent; border: 1px solid var(--hairline);
+  border-radius: var(--r-control);
+  color: var(--ink); font: 700 15px/1 "Nunito Sans", sans-serif;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { display: inline-flex; }
+
+  /* Floating over content ⇒ dark, never white. A hairline between two
+     whites is a seam, not a boundary. */
+  #nav-links {
+    display: none;
+    position: absolute; left: var(--gutter); right: var(--gutter); top: 68px;
+    z-index: 20;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--slab); border-radius: var(--r-card);
+    padding: var(--s-sm);
+    box-shadow: 0 12px 28px rgba(43, 42, 39, 0.28);
+  }
+  #nav-links.open { display: flex; }
+  #nav-links li + li { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+  #nav-links a {
+    display: block; padding: var(--s-md) var(--s-lg);
+    color: #fff; font-size: 17px;
+  }
+  #nav-links a:hover, #nav-links a[aria-current="page"] { color: var(--slab-dim); }
+  .site-header nav { position: relative; }
+}
+
+/* --- Sections ------------------------------------------------------------ */
+main { display: block; }
+section { padding-block: var(--section); }
+section + section { padding-top: 0; }
+section > :last-child { margin-bottom: 0; }
+
+.section-head { max-width: 44rem; margin-bottom: var(--s-3xl); }
+.section-head p { color: var(--dim-text); margin-bottom: 0; }
+
+/* Marker underline (§4.5). Costs no layout height, so reserve clearance. */
+.mark { position: relative; display: inline-block; margin-bottom: 26px; }
+.mark svg { position: absolute; pointer-events: none; overflow: visible; }
+
+/* --- Hero ---------------------------------------------------------------- */
+.hero { padding-block: var(--s-4xl) var(--section); text-align: center; }
+.hero-icon {
+  width: 96px; height: 96px; border-radius: 22px;
+  border: 1px solid var(--hairline); box-shadow: var(--shadow);
+  margin-bottom: var(--s-2xl);
+}
+.hero h1 { max-width: 16ch; margin-inline: auto; }
+.hero .lede { max-width: 56ch; margin-inline: auto; color: var(--dim-text); }
+.hero .lede strong { color: var(--ink); font-weight: 800; }
+.hero-actions {
+  display: flex; flex-wrap: wrap; gap: var(--s-md);
+  justify-content: center; align-items: center; margin-top: var(--s-2xl);
+}
+
+/* --- Feature cards ------------------------------------------------------- */
+.feature img { width: 48px; height: 48px; margin-bottom: var(--s-md); display: block; }
+
+/* Scroll reveal — guarded, and off entirely for reduced motion. */
+.reveal { opacity: 0; transform: translateY(12px); }
+.reveal.in { opacity: 1; transform: none; transition: opacity 400ms ease, transform 400ms ease; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.in { opacity: 1; transform: none; transition: none; }
+  .btn { transition: none; }
+  * { scroll-behavior: auto !important; }
+}
+
+/* --- Example bloks ------------------------------------------------------- */
+.blok {
+  display: flex; align-items: center; gap: var(--s-lg);
+  background: var(--white); border: 1px solid var(--hairline);
+  border-radius: var(--r-card); box-shadow: var(--shadow);
+  padding: var(--s-lg) var(--s-xl);
+}
+.blok-icon {
+  flex: none; width: 44px; height: 44px; border-radius: var(--r-inner);
+  display: grid; place-items: center;
+}
+.blok-icon img { width: 30px; height: 30px; }
+/* Scoped to .blok-text, not .blok — a bare `.blok span` also matches
+   .blok-icon and, being more specific, would override its display:grid. */
+.blok-text strong { display: block; font-size: 17px; }
+.blok-text span { display: block; font-size: 14px; color: var(--dim-text); }
+
+/* --- Prose (privacy, terms, delete-account) ------------------------------ */
+.prose { max-width: 46rem; }
+.prose h2 { margin-top: var(--s-4xl); }
+.prose h2:first-of-type { margin-top: var(--s-3xl); }
+.prose h3 { margin-top: var(--s-2xl); }
+.prose ul, .prose ol { margin: 0 0 var(--s-lg); padding-left: var(--s-2xl); }
+.prose li { margin-bottom: var(--s-sm); }
+.prose li:last-child { margin-bottom: 0; }
+.prose table { border-collapse: collapse; width: 100%; margin-bottom: var(--s-lg); }
+.prose th, .prose td {
+  text-align: left; padding: var(--s-md); border-bottom: 1px solid var(--hairline);
+  vertical-align: top; font-size: 16px;
+}
+.prose th { font-weight: 800; }
+
+.updated {
+  display: inline-block; font-size: 14px; font-weight: 700;
+  color: var(--dim-text); margin-bottom: var(--s-2xl);
+}
+
+.note {
+  background: var(--white); border: 1px solid var(--hairline);
+  border-left: 4px solid var(--iris);
+  border-radius: var(--r-inner); padding: var(--s-lg) var(--s-xl);
+  margin-bottom: var(--s-lg);
+}
+
+/* Table wrappers must scroll themselves; the page never scrolls sideways. */
+.scroll-x { overflow-x: auto; }
+
+/* --- FAQ (native <details>, no JS) --------------------------------------- */
+.faq { display: grid; gap: var(--s-md); }
+.faq details {
+  background: var(--white); border: 1px solid var(--hairline);
+  border-radius: var(--r-card); box-shadow: var(--shadow);
+}
+.faq summary {
+  cursor: pointer; list-style: none;
+  padding: var(--s-lg) var(--s-xl);
+  font-weight: 700; font-size: 18px;
+  display: flex; justify-content: space-between; align-items: center; gap: var(--s-lg);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; flex: none; color: var(--iris); font-size: 22px; font-weight: 800; line-height: 1;
+}
+.faq details[open] summary::after { content: "\2013"; }
+.faq details[open] summary { padding-bottom: var(--s-sm); }
+.faq .faq-body { padding: 0 var(--s-xl) var(--s-xl); color: var(--dim-text); }
+.faq .faq-body :last-child { margin-bottom: 0; }
+
+/* --- Contact block ------------------------------------------------------- */
+address { font-style: normal; }
+.contact-card address { line-height: 1.7; }
+
+/* --- Footer -------------------------------------------------------------- */
+.site-footer {
+  background: var(--slab); color: #fff;
+  padding-block: var(--s-4xl);
+  margin-top: var(--section);
+}
+.site-footer .wrap { display: grid; gap: var(--s-2xl); }
+.site-footer address { font-size: 15px; line-height: 1.7; color: var(--slab-dim); }
+.site-footer address strong { color: #fff; font-weight: 800; }
+.site-footer a { color: var(--slab-dim); }
+.site-footer a:hover { color: #fff; }
+.site-footer nav { font-size: 15px; color: var(--slab-dim); }
+.site-footer .legal { font-size: 14px; line-height: 1.5; color: var(--slab-dim); margin: 0; }
+.site-footer :focus-visible { outline-color: var(--slab-dim); }
+
+@media (min-width: 769px) {
+  .site-footer .wrap {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+  .site-footer nav { grid-column: 2; grid-row: 1; text-align: right; }
+  .site-footer .legal { grid-column: 1 / -1; }
+}
+
+/* --- 404 ----------------------------------------------------------------- */
+.center-page { text-align: center; padding-block: var(--section); }
+.center-page p { max-width: 44ch; margin-inline: auto; color: var(--dim-text); }
