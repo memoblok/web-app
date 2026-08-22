@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Join a Blok — memoblok</title>
+  <meta name="description" content="You've been invited to share a Blok on memoblok. Here's what sharing a Blok means, and how to open your invitation." />
+  <!-- Not a content page; it only exists for people who land here without the app. -->
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://www.memoblok.com/join" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="memoblok" />
+  <meta property="og:title" content="You've been invited to share a Blok" />
+  <meta property="og:description" content="Someone wants to share a Blok with you on memoblok — the app for tracking anything you can count or measure." />
+  <meta property="og:image" content="https://www.memoblok.com/assets/img/og.png" />
+  <meta property="og:url" content="https://www.memoblok.com/join" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+<body>
+  <!--
+    The invite token travels in the URL FRAGMENT (…/join#TOKEN) and must stay there.
+    A fragment is never sent to a server, which is the whole point: messenger
+    link-preview bots fetch invite URLs before anyone taps them, and a token in the
+    path would leak into those fetches and into this site's request logs.
+
+    This page therefore never reads location.hash — not into a variable, not into a
+    query string, not into a link, not into analytics. It cannot see the token, and
+    it has no reason to. Keep it that way.
+  -->
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="wrap" aria-label="Main">
+      <a href="/" class="brand"><img src="/assets/img/icon.png" alt="" width="32" height="32" />memoblok</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <ul id="nav-links">
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/support.html">Support</a></li>
+        <li><a href="/privacy.html">Privacy</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap">
+      <img class="hero-icon" src="/assets/img/icon.png" alt="memoblok app icon" width="96" height="96" />
+      <p class="eyebrow">Invitation</p>
+      <h1>You've been invited to share a Blok</h1>
+      <p class="lede">
+        memoblok turns the things you do into <strong>Bloks</strong> — habits, spending,
+        workouts, weight, reading, anything you can count or measure. Someone would like
+        to share one of theirs with you.
+      </p>
+      <p class="hero-actions">
+        <span class="chip">Coming soon to iOS and Android</span>
+      </p>
+      <!--
+        App Store badge goes here, and only once the app is actually live.
+        A badge linking nowhere is worse than no badge.
+      -->
+    </section>
+
+    <section class="wrap">
+      <div class="prose" style="margin-inline: auto;">
+        <div class="note">
+          <p>
+            <strong>Already installed? Tap the link again.</strong> Your phone only checks
+            for memoblok at the moment you tap, so the second tap is the one that opens
+            the app and your invitation with it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head">
+        <h2 class="mark">What sharing means</h2>
+        <p>
+          Accepting an invitation connects exactly one Blok, and nothing else about your
+          account changes.
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="card reveal">
+          <h3>It goes both ways</h3>
+          <p>
+            The person who invited you will be able to read the entries you log in that
+            shared Blok, and you'll be able to read theirs.
+          </p>
+        </article>
+
+        <article class="card reveal">
+          <h3>Nothing else crosses</h3>
+          <p>
+            Only the Blok in the invitation is shared. Every other Blok you track stays
+            yours alone, and so does the rest of your account.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="card" style="text-align: center;">
+        <h2>Not sure about this invitation?</h2>
+        <p class="muted" style="max-width: 48ch; margin-inline: auto;">
+          You never have to accept one, and an invitation that goes unused expires on its
+          own. If something looks wrong, write to us before you tap.
+        </p>
+        <p class="hero-actions">
+          <a class="btn" href="mailto:ayen@memoblok.com">Email us</a>
+          <a class="btn btn-quiet" href="/privacy.html">Read the privacy policy</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <address>
+        <strong>MEMOBLOK, LLC</strong><br />
+        <a href="mailto:ayen@memoblok.com">ayen@memoblok.com</a>
+      </address>
+      <nav aria-label="Footer">
+        <a href="/about.html">About</a> ·
+        <a href="/privacy.html">Privacy</a> ·
+        <a href="/terms.html">Terms</a> ·
+        <a href="/support.html">Support</a> ·
+        <a href="/delete-account.html">Delete your data</a>
+      </nav>
+      <p class="legal">&copy; 2025–<span data-year>2026</span> MEMOBLOK, LLC. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/assets/js/site.js"></script>
+</body>
+</html>
