@@ -85,6 +85,9 @@ body {
 
 img { max-width: 100%; height: auto; }
 
+/* Beats the display: of whatever it lands on — .btn is inline-flex. */
+[hidden] { display: none !important; }
+
 a { color: var(--iris); text-underline-offset: 2px; }
 a:hover { color: var(--iris-deep); }
 
@@ -316,6 +319,38 @@ section > :last-child { margin-bottom: 0; }
 
 /* Table wrappers must scroll themselves; the page never scrolls sideways. */
 .scroll-x { overflow-x: auto; }
+
+/* --- /join invite paste flow ---------------------------------------------
+   The link has to survive an in-app browser with no address bar, so it is set
+   as selectable text first and a copy button second.
+   ------------------------------------------------------------------------ */
+.paste-card .paste-do { color: var(--ink); }
+.paste-card .paste-do strong { font-weight: 800; }
+/* `.card p` zeroes the margin — right for a card holding one paragraph, wrong
+   for this one. Restored only where something follows. */
+.paste-card .paste-intro,
+#paste-token .paste-do { margin-bottom: var(--s-lg); }
+
+.invite-link {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-inner);
+  padding: var(--s-md) var(--s-lg);
+  margin-bottom: var(--s-md);
+}
+.invite-link code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 15px; line-height: 1.5; color: var(--ink);
+  /* One tap selects the whole link, so a long-press → Copy gets all of it. */
+  -webkit-user-select: all; user-select: all;
+  /* A token has no spaces to break at; the page must not scroll sideways. */
+  overflow-wrap: anywhere; word-break: break-all;
+}
+
+.copy-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-md);
+  margin-bottom: 0;
+}
 
 /* --- FAQ (native <details>, no JS) --------------------------------------- */
 .faq { display: grid; gap: var(--s-md); }

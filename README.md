@@ -82,19 +82,50 @@ https://www.memoblok.com/join#Ky7-3nDlsf8803HV_kVJC2w
 
 With the app installed, iOS opens memoblok and this page never loads. Without it,
 Safari lands here, which is why `join.html` explains what memoblok is and what
-sharing a Blok means. GitHub Pages serves `join.html` at `/join` as a direct 200,
-so the extensionless URL needs no redirect.
+sharing a Blok means. GitHub Pages serves `join.html` at `/join` as a direct 200, so
+the extensionless URL the association file matches on needs no redirect. Keep it a
+file: moving it to a `join/index.html` directory turns `/join` into a 301 to `/join/`,
+which gains nothing and leaves the page rebuilding a trailing-slash URL that no longer
+matches the link the app minted.
 
 **The token is in the fragment (`#…`) and that is load-bearing.** A fragment is
 never sent to a server, so it stays out of this site's request logs and out of the
-link-preview fetches that iMessage and WhatsApp make before anyone taps. `join.html`
-must never read `location.hash` — not into a query string, a link, or analytics.
-It cannot see the token, and it has no reason to.
+link-preview fetches that iMessage and WhatsApp make before anyone taps. The page
+reads `location.hash` in the browser to show the reader their own link, and that is
+as far as it goes: the token must never reach the network — not in a query string,
+an `href`, analytics, or a `fetch`. Moving it to a query string to make the page
+easier to build would leak a working credential for every invite ever sent.
 
 The page also has to keep saying, in as many words, **"Already installed? Tap the
 link again."** iOS only consults the association file at tap time, so for someone
 who installs after their first tap, the second tap is the one that opens the app.
 Delete that line and that person is stranded on a web page.
+
+### The paste flow
+
+A universal link only fires when the messenger hands the URL to the OS, and several
+never do — WeChat and others open it in their own webview, so the tap lands on this
+page and the app never hears about the invite even though it is installed. No
+entitlement, `associatedDomains` entry or association-file change overrides that, and
+"tap the link again" doesn't either: the second tap goes to the same webview.
+
+The app takes a pasted link at **Settings › Sharing → "Have an invite link?"**, and
+the page's only job is to say so. Nothing is parsed or validated here. Name that path
+exactly as written — it is what the app's own rows say, and the reader is hunting
+through Settings for it.
+
+The instruction is the same either way; only the source of the link changes, and only
+the browser can tell which case it is:
+
+| Fragment | Copy |
+| --- | --- |
+| `…/join#TOKEN` | Copy **the link below**, shown as selectable text, because an in-app browser usually hides the address bar and this is the only copy of the link the reader can reach. |
+| `…/join` | Copy the invite link **from wherever you received it**. There is no link to show, and the page must not pretend otherwise. |
+
+The no-token copy is what the file ships rendered, so a reader without JavaScript is
+never shown a link that isn't there. The copy button is a bonus and only appears where
+`navigator.clipboard` exists; selectable text is the floor, because some webviews
+expose no Clipboard API at all.
 
 ### The association file
 
@@ -116,8 +147,9 @@ curl -s  https://www.memoblok.com/.well-known/apple-app-site-association
 curl -sI https://www.memoblok.com/join
 ```
 
-Expect `HTTP/2 200` and no `location:` header. Any 301/302 means it is broken, even
-though it looks fine in a browser — browsers follow redirects. Apple's validator at
+Expect `HTTP/2 200` and no `location:` header on all three. Any 301/302 means it is
+broken, even though it looks fine in a browser — browsers follow redirects, and iOS
+follows none. Apple's validator at
 `https://app-site-association.cdn-apple.com/a/v1/www.memoblok.com` caches, so it can
 lag a fresh deploy; trust `curl` first.
 

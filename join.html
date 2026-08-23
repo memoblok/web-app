@@ -21,14 +21,20 @@
 </head>
 <body>
   <!--
-    The invite token travels in the URL FRAGMENT (…/join#TOKEN) and must stay there.
-    A fragment is never sent to a server, which is the whole point: messenger
-    link-preview bots fetch invite URLs before anyone taps them, and a token in the
-    path would leak into those fetches and into this site's request logs.
+    Served at /join — GitHub Pages resolves the extensionless path to this file
+    as a direct 200, which is the URL the association file matches on. A
+    join/index.html directory would work too, but only via a 301 to /join/.
 
-    This page therefore never reads location.hash — not into a variable, not into a
-    query string, not into a link, not into analytics. It cannot see the token, and
-    it has no reason to. Keep it that way.
+    The invite token travels in the URL FRAGMENT (…/join#TOKEN) and must stay
+    there. A fragment is never sent to a server, which is the whole point:
+    messenger link-preview bots fetch invite URLs before anyone taps them, and a
+    token in the path or a query string would leak a working credential into
+    those fetches and into this site's request logs.
+
+    The paste flow below reads location.hash in the browser to show the reader
+    their own link. That is fine — it never leaves the page. What must never
+    happen is the token reaching the network: no query string, no link href, no
+    analytics, no fetch. See assets/js/site.js.
   -->
 
   <a class="skip-link" href="#main">Skip to content</a>
@@ -71,6 +77,51 @@
             <strong>Already installed? Tap the link again.</strong> Your phone only checks
             for memoblok at the moment you tap, so the second tap is the one that opens
             the app and your invitation with it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="card paste-card">
+        <h2>Opened from a chat app?</h2>
+        <p class="paste-intro">
+          Some messengers — WeChat among them — open links in their own built-in browser
+          instead of handing them to your phone, so the tap lands here even when memoblok
+          is installed, and tapping again only comes back to this page. When that happens,
+          use the link inside the app instead.
+        </p>
+
+        <!--
+          Two instructions, and the only difference is where the reader gets the link
+          from. Which one applies depends on the fragment, so only the browser can tell
+          them apart. The no-token copy is the one rendered by default: it is true on
+          any /join URL, and a reader without JavaScript is never shown a link that
+          isn't there.
+        -->
+        <div id="paste-generic">
+          <p class="paste-do">
+            <strong>Already have memoblok?</strong> Copy the invite link from wherever you
+            received it, then open the app and go to
+            <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong> to paste it.
+          </p>
+        </div>
+
+        <div id="paste-token" hidden>
+          <p class="paste-do">
+            <strong>Already have memoblok?</strong> Copy the link below, then open the app
+            and go to <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong>
+            to paste it.
+          </p>
+          <!--
+            In an in-app browser the address bar is usually hidden, so this is often the
+            only copy of the link the reader can reach. Selectable text is the floor —
+            the button above it is a bonus, and some webviews expose no clipboard at all.
+          -->
+          <div class="invite-link"><code id="invite-url"></code></div>
+          <p class="copy-row">
+            <button type="button" class="btn btn-quiet" id="copy-btn" hidden>Copy link</button>
+            <span class="small muted" id="copy-status" role="status"></span>
           </p>
         </div>
       </div>
