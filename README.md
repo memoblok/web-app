@@ -25,7 +25,7 @@ CNAME                 The custom domain — Pages needs this file
                       Universal-links manifest. No extension, ever.
 
 assets/css/site.css   The whole stylesheet; every colour is a custom property
-assets/js/site.js     Nav toggle, © year, marker underline, guarded reveal
+assets/js/site.js     Nav toggle, © year, invite paste flow, guarded reveal
 assets/fonts/         Nunito Sans 400/700/800, latin subset, self-hosted (OFL)
 assets/img/           Icon, grain tile, feature icons, share image
 ```
@@ -42,8 +42,8 @@ Paths are absolute (`/assets/...`), so open it through a server rather than
 ## Design notes
 
 The site reuses the app's identity: a warm paper ground (`#F3F1E9`) with a
-seamless grain tile, white cards outlined by a hairline, one purple accent
-(`#6E4FA8`), and hand-drawn marker underlines.
+seamless grain tile, white cards outlined by a hairline, and one purple accent
+(`#6E4FA8`).
 
 Two rules are load-bearing, and dropping either produces a washed-out page:
 
@@ -60,12 +60,6 @@ white, because a hairline between two whites is a seam, not a boundary — here
 that is the mobile nav drawer.
 
 The grain tile is only seamless at `background-size: 128px`. Don't scale it.
-
-The marker underline is generated in `site.js` and is deliberately **scarce** —
-one per page, at full strength. It is seeded by heading index, so a given
-heading draws the same stroke forever; never introduce `Math.random()` there.
-An accent stroke under every header stops reading as a touch of hand and starts
-reading as noise.
 
 Colours live in `:root` as custom properties and are referenced by name — there
 should be no raw hex anywhere else in the stylesheet. `--dim` (`#7A7A7F`) only

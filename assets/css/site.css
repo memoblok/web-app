@@ -242,10 +242,6 @@ section > :last-child { margin-bottom: 0; }
 .section-head { max-width: 44rem; margin-bottom: var(--s-3xl); }
 .section-head p { color: var(--dim-text); margin-bottom: 0; }
 
-/* Marker underline (§4.5). Costs no layout height, so reserve clearance. */
-.mark { position: relative; display: inline-block; margin-bottom: 26px; }
-.mark svg { position: absolute; pointer-events: none; overflow: visible; }
-
 /* --- Hero ---------------------------------------------------------------- */
 .hero { padding-block: var(--s-4xl) var(--section); text-align: center; }
 .hero-icon {
