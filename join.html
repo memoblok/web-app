@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Join a Blok — memoblok</title>
-  <meta name="description" content="You've been invited to share a Blok on memoblok. Here's what sharing a Blok means, and how to open your invitation." />
+  <title>Join a Blok — MemoBlok</title>
+  <meta name="description" content="You've been invited to share a Blok on MemoBlok. Here's what sharing a Blok means, and how to open your invitation." />
   <!-- Not a content page; it only exists for people who land here without the app. -->
   <meta name="robots" content="noindex" />
   <link rel="canonical" href="https://www.memoblok.com/join" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="memoblok" />
+  <meta property="og:site_name" content="MemoBlok" />
   <meta property="og:title" content="You've been invited to share a Blok" />
-  <meta property="og:description" content="Someone wants to share a Blok with you on memoblok — the app for tracking anything you can count or measure." />
+  <meta property="og:description" content="Someone wants to share a Blok with you on MemoBlok — the app for tracking anything you can count or measure." />
   <meta property="og:image" content="https://www.memoblok.com/assets/img/og.png" />
   <meta property="og:url" content="https://www.memoblok.com/join" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -41,7 +41,7 @@
 
   <header class="site-header">
     <nav class="wrap" aria-label="Main">
-      <a href="/" class="brand"><img src="/assets/img/icon.png" alt="" width="32" height="32" />memoblok</a>
+      <a href="/" class="brand"><img src="/assets/img/icon.png" alt="" width="32" height="32" />MemoBlok</a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
       <ul id="nav-links">
         <li><a href="/about.html">About</a></li>
@@ -53,11 +53,11 @@
 
   <main id="main">
     <section class="hero wrap">
-      <img class="hero-icon" src="/assets/img/icon.png" alt="memoblok app icon" width="96" height="96" />
+      <img class="hero-icon" src="/assets/img/icon.png" alt="MemoBlok app icon" width="96" height="96" />
       <p class="eyebrow">Invitation</p>
       <h1>You've been invited to share a Blok</h1>
       <p class="lede">
-        memoblok turns the things you do into <strong>Bloks</strong> — habits, spending,
+        MemoBlok turns the things you do into <strong>Bloks</strong> — habits, spending,
         workouts, weight, reading, anything you can count or measure. Someone would like
         to share one of theirs with you.
       </p>
@@ -74,55 +74,44 @@
       <div class="prose" style="margin-inline: auto;">
         <div class="note">
           <p>
-            <strong>Already installed? Tap the link again.</strong> Your phone only checks
-            for memoblok at the moment you tap, so the second tap is the one that opens
-            the app and your invitation with it.
+            <strong>Don't have MemoBlok yet?</strong> Install it, then tap the invite link
+            again. Your phone only looks for the app at the moment you tap, so the first
+            tap couldn't open it and the second one can.
           </p>
-        </div>
-      </div>
-    </section>
 
-    <section class="wrap">
-      <div class="card paste-card">
-        <h2>Opened from a chat app?</h2>
-        <p class="paste-intro">
-          Some messengers — WeChat among them — open links in their own built-in browser
-          instead of handing them to your phone, so the tap lands here even when memoblok
-          is installed, and tapping again only comes back to this page. When that happens,
-          use the link inside the app instead.
-        </p>
-
-        <!--
-          Two instructions, and the only difference is where the reader gets the link
-          from. Which one applies depends on the fragment, so only the browser can tell
-          them apart. The no-token copy is the one rendered by default: it is true on
-          any /join URL, and a reader without JavaScript is never shown a link that
-          isn't there.
-        -->
-        <div id="paste-generic">
-          <p class="paste-do">
-            <strong>Already have memoblok?</strong> Copy the invite link from wherever you
-            received it, then open the app and go to
-            <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong> to paste it.
-          </p>
-        </div>
-
-        <div id="paste-token" hidden>
-          <p class="paste-do">
-            <strong>Already have memoblok?</strong> Copy the link below, then open the app
-            and go to <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong>
-            to paste it.
-          </p>
           <!--
-            In an in-app browser the address bar is usually hidden, so this is often the
-            only copy of the link the reader can reach. Selectable text is the floor —
-            the button above it is a bonus, and some webviews expose no clipboard at all.
+            One instruction either way — open the app and paste the link. The only thing
+            that changes is where the reader gets the link from, and only the browser can
+            tell the two apart, because the token is in the fragment.
+
+            The no-token copy is the one that ships rendered: it is true on any /join URL,
+            so a reader without JavaScript is never shown a link that isn't there.
           -->
-          <div class="invite-link"><code id="invite-url"></code></div>
-          <p class="copy-row">
-            <button type="button" class="btn btn-quiet" id="copy-btn" hidden>Copy link</button>
-            <span class="small muted" id="copy-status" role="status"></span>
-          </p>
+          <div id="paste-generic">
+            <p>
+              <strong>Already have MemoBlok?</strong> Copy the invite link from wherever you
+              received it, then open the app and go to
+              <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong> to paste it.
+            </p>
+          </div>
+
+          <div id="paste-token" hidden>
+            <p>
+              <strong>Already have MemoBlok?</strong> Copy the link below, then open the app and
+              go to <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong>
+              to paste it.
+            </p>
+            <!--
+              In an in-app browser the address bar is usually hidden, so this is often the
+              only copy of the link the reader can reach. Selectable text is the floor; the
+              button is a bonus, and some webviews expose no clipboard at all.
+            -->
+            <div class="invite-link"><code id="invite-url"></code></div>
+            <p class="copy-row">
+              <button type="button" class="btn btn-quiet" id="copy-btn" hidden>Copy link</button>
+              <span class="small muted" id="copy-status" role="status"></span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -160,7 +149,7 @@
         <h2>Not sure about this invitation?</h2>
         <p class="muted" style="max-width: 48ch; margin-inline: auto;">
           You never have to accept one, and an invitation that goes unused expires on its
-          own. If something looks wrong, write to us before you tap.
+          own. If something looks wrong, write to us before you accept.
         </p>
         <p class="hero-actions">
           <a class="btn" href="mailto:ayen@memoblok.com">Email us</a>

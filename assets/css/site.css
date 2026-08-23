@@ -324,13 +324,6 @@ section > :last-child { margin-bottom: 0; }
    The link has to survive an in-app browser with no address bar, so it is set
    as selectable text first and a copy button second.
    ------------------------------------------------------------------------ */
-.paste-card .paste-do { color: var(--ink); }
-.paste-card .paste-do strong { font-weight: 800; }
-/* `.card p` zeroes the margin — right for a card holding one paragraph, wrong
-   for this one. Restored only where something follows. */
-.paste-card .paste-intro,
-#paste-token .paste-do { margin-bottom: var(--s-lg); }
-
 .invite-link {
   background: var(--paper);
   border: 1px solid var(--hairline);

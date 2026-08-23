@@ -1,6 +1,6 @@
 # memoblok.com
 
-The public site for [memoblok](https://www.memoblok.com/), an app for tracking
+The public site for [MemoBlok](https://www.memoblok.com/), an app for tracking
 anything you can count or measure.
 
 Hand-written HTML + CSS + vanilla JS. **No framework, no build step, no
@@ -10,7 +10,7 @@ and script is served from this domain. Published with GitHub Pages.
 ## Layout
 
 ```
-index.html            What memoblok is
+index.html            What MemoBlok is
 about.html            The company, and how to reach us
 support.html          Contact and FAQ
 privacy.html          Privacy Policy
@@ -80,8 +80,8 @@ The app mints invite links of the form:
 https://www.memoblok.com/join#Ky7-3nDlsf8803HV_kVJC2w
 ```
 
-With the app installed, iOS opens memoblok and this page never loads. Without it,
-Safari lands here, which is why `join.html` explains what memoblok is and what
+With the app installed, iOS opens MemoBlok and this page never loads. Without it,
+Safari lands here, which is why `join.html` explains what MemoBlok is and what
 sharing a Blok means. GitHub Pages serves `join.html` at `/join` as a direct 200, so
 the extensionless URL the association file matches on needs no redirect. Keep it a
 file: moving it to a `join/index.html` directory turns `/join` into a 301 to `/join/`,
@@ -96,10 +96,16 @@ as far as it goes: the token must never reach the network — not in a query str
 an `href`, analytics, or a `fetch`. Moving it to a query string to make the page
 easier to build would leak a working credential for every invite ever sent.
 
-The page also has to keep saying, in as many words, **"Already installed? Tap the
-link again."** iOS only consults the association file at tap time, so for someone
-who installs after their first tap, the second tap is the one that opens the app.
-Delete that line and that person is stranded on a web page.
+The page also has to keep telling the reader to **tap the invite link again after
+installing**. iOS only consults the association file at tap time, so for someone who
+installs after their first tap, the second tap is the one that opens the app. Delete
+that and they are stranded on a web page.
+
+Word it as part of the *don't have the app yet* path, never as "already installed?
+tap it again" — anyone reading this page is here precisely because tapping did not
+open the app, and telling them to repeat it is telling them to redo what just
+failed. For the reader who does have the app, the answer is the paste flow below,
+not another tap.
 
 ### The paste flow
 
