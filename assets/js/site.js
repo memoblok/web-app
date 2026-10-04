@@ -1,4 +1,5 @@
-/* memoblok.com — nav toggle, © year, invite paste flow, guarded reveal. */
+/* memoblok.com — nav toggle, © year, invite paste flow, legal contents,
+   guarded reveal. */
 (function () {
   "use strict";
 
@@ -9,6 +10,13 @@
     toggle.addEventListener("click", function () {
       var open = links.classList.toggle("open");
       toggle.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && links.classList.contains("open")) {
+        links.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.focus();
+      }
     });
   }
 
@@ -51,11 +59,43 @@
       copy.hidden = false;
       copy.addEventListener("click", function () {
         navigator.clipboard.writeText(urlEl.textContent).then(
-          function () { status.textContent = "Link copied."; },
+          function () { status.textContent = "Link copied. Now paste it in the app."; },
           function () { status.textContent = "Couldn\u2019t copy \u2014 press and hold the link to select it."; }
         );
       });
     }
+  }
+
+  /* Legal pages — "On this page" -----------------------------------------
+     One <details>: on desktop it is the sticky contents card, always open;
+     on a phone it folds into a row above the text. It ships open so it
+     still works without JavaScript; here it starts folded on a phone, and
+     the link for the section being read is marked. -------------------- */
+  var toc = document.querySelector(".toc");
+  if (toc) {
+    var phone = window.matchMedia("(max-width: 768px)");
+    if (phone.matches) toc.open = false;
+    phone.addEventListener && phone.addEventListener("change", function (m) { toc.open = !m.matches; });
+    var tocLinks = Array.prototype.slice.call(toc.querySelectorAll("a[href^='#']"));
+    tocLinks.forEach(function (a) {
+      a.addEventListener("click", function () { if (phone.matches) toc.open = false; });
+    });
+    var targets = tocLinks.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+    var mark = function () {
+      var line = window.innerHeight * 0.3, current = 0;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top <= line) current = i; });
+      // At the very bottom the last short sections can't reach the line.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) current = targets.length - 1;
+      tocLinks.forEach(function (a, i) {
+        a.classList.toggle("on", i === current);
+        if (i === current) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+      });
+    };
+    var ticking = false;
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; mark(); }); }
+    }, { passive: true });
+    mark();
   }
 
   /* Reveal on scroll — the ceiling for motion here, and skipped entirely
