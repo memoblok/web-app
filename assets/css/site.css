@@ -376,6 +376,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .codes-table th:first-child { width: 22%; }
 .codes-table th:nth-child(2) { width: 39%; }
 .codes-table td { padding: 14px 18px; border-top: 1px solid var(--hair-soft); vertical-align: top; font: 400 16px/1.55 var(--font); color: var(--heading); }
+.codes-table td:first-child { font: 400 16px var(--font); }
 .codes-table td:last-child { color: var(--sub); }
 .codes-table tr:target td, .codes-table td:target { background: var(--faq); }
 
