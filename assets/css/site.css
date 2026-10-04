@@ -84,7 +84,7 @@ body {
   margin: 0;
   background: var(--white);
   color: var(--heading);
-  font: 400 17px/1.5 var(--font);
+  font: 400 16px var(--font); /* the canvas default: line-height normal */
   -webkit-font-smoothing: antialiased;
 }
 img, svg { display: block; max-width: 100%; }
@@ -92,7 +92,8 @@ a { color: var(--accent); }
 a:hover { color: var(--accent-hover); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 h1, h2, h3, p { margin: 0; }
-b, strong { font-weight: 800; }
+b, strong { font-weight: 700; }
+[hidden] { display: none !important; }
 
 .wrap { max-width: 1328px; margin: 0 auto; padding: 0 24px; }
 .m-only { display: none; }
@@ -135,7 +136,7 @@ b, strong { font-weight: 800; }
 .brand-name { font: 800 30px var(--font); color: var(--white); }
 .nav-links { display: flex; gap: 34px; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; }
 .nav-links a { color: var(--white); text-decoration: none; font: 600 15px var(--font); }
-.nav-links a:hover { color: var(--white); text-decoration: underline; text-underline-offset: 4px; }
+.nav-links a:hover { color: var(--white); }
 .page-head :focus-visible { outline-color: var(--white); }
 .nav-toggle { display: none; }
 
@@ -173,7 +174,7 @@ b, strong { font-weight: 800; }
 .foot-copy { grid-area: copy; align-self: start; font: 400 12px var(--font); color: var(--caption); }
 .foot-nav { grid-area: nav; justify-self: end; display: flex; gap: 28px; flex-wrap: wrap; justify-content: flex-end; }
 .foot-nav a { color: var(--sub); text-decoration: none; font: 600 14px var(--font); }
-.foot-nav a:hover { color: var(--accent); }
+.foot-nav a:hover { color: var(--sub); }
 
 /* --- Surfaces ------------------------------------------------------------- */
 .card {
@@ -181,7 +182,6 @@ b, strong { font-weight: 800; }
   border: 1px solid var(--hair); border-bottom: 3px solid var(--lip);
 }
 a.card { display: block; text-decoration: none; color: inherit; }
-a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
 .panel {
   border-radius: 26px;
   border: 1px solid var(--hair-soft); border-bottom: 3px solid var(--lip);
@@ -223,7 +223,6 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
   display: inline-flex; align-items: center; gap: 6px;
   font: 800 17px var(--font); color: var(--accent); text-decoration: none;
 }
-.cta-primary:hover, .cta-light:hover, .cta-secondary:hover { filter: brightness(1.06); }
 .cta-primary:active, .cta-light:active, .cta-secondary:active { transform: translateY(1px); }
 
 /* --- FAQ rows ------------------------------------------------------------- */
@@ -253,7 +252,6 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
 .about-card { padding: 32px 36px; }
 .about-card p { font: 400 19px/1.6 var(--font); color: var(--prose); }
 .about-card p + p { margin-top: 14px; }
-.about-card b { color: var(--heading); }
 .contact-card { padding: 28px 30px; }
 .contact-card address { font: normal 400 17px/1.7 var(--font); color: var(--prose); }
 .contact-card address b { color: var(--heading); }
@@ -284,7 +282,6 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
 .del-head .itile { width: 52px; height: 52px; border-radius: 15px; }
 .del-title { font: 800 26px var(--font); color: var(--heading); }
 .del-card ol { margin: 0; padding-left: 24px; font: 400 18px/1.7 var(--font); color: var(--prose); }
-.del-card ol b { color: var(--heading); }
 .del-card > p { margin-bottom: 18px; font: 400 18px/1.65 var(--font); color: var(--prose); }
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .list-card { padding: 26px 30px; }
@@ -306,7 +303,6 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
 .join-card .label { margin-bottom: 6px; }
 .join-card > p:not(.label) { font: 400 18px/1.6 var(--font); color: var(--prose); }
 .join-card > p.lead-in { margin-bottom: 14px; }
-.join-card b { color: var(--heading); }
 .link-box {
   display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   padding: 10px 10px 10px 14px; border-radius: 12px; background: var(--link-box);
@@ -348,7 +344,6 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
   display: block; padding: 7px 12px; border-radius: 10px;
   color: var(--sub); text-decoration: none; font: 600 15px/1.35 var(--font);
 }
-.toc a:hover { color: var(--accent); }
 .toc a.on { background: var(--lilac); color: var(--accent); font-weight: 800; }
 .legal-main { flex: 1 1 560px; max-width: 780px; min-width: 0; }
 .updated { margin-bottom: 22px; font: 700 14px var(--font); color: var(--caption); }
@@ -414,7 +409,7 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
   }
   .nav-links.open { display: flex; }
   .nav-links a { display: block; padding: 12px 14px; border-radius: 12px; color: var(--heading); font: 700 17px var(--font); }
-  .nav-links a:hover { color: var(--accent); background: var(--lilac); text-decoration: none; }
+  .nav-links a:hover { color: var(--heading); }
 
   .page-title {
     padding: 26px 22px 30px; background: var(--hero-m);
@@ -436,7 +431,7 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
   }
   .foot .logo-tile { width: 36px; height: 36px; border-radius: 9px; }
   .foot .logo-tile img { width: 30px; height: 30px; }
-  .foot-name { align-self: center; font-size: 17px; }
+  .foot-name { align-self: start; font-size: 17px; line-height: 36px; }
   .foot-nav { gap: 6px 16px; margin-left: 6px; }
   .foot-copy { margin-top: 14px; text-align: center; font: 400 13px/1.4 var(--font); }
 
@@ -472,9 +467,13 @@ a.card:hover { border-color: #3b2cd94d; border-bottom-color: #3b2cd966; }
   .link-card .itile svg { width: 20px; height: 20px; }
   .link-title { font-size: 16px; }
   .link-sub { font-size: 14px; }
-  .support-faq { margin-top: 32px; }
+  .sheet-support { padding-top: 24px; }
+  .support-faq { margin-top: 26px; }
 
-  /* Delete account */
+  /* Delete account: no phone frame; the stacks dissolve so the warning
+     sits right after the in-app steps */
+  .del-grid > .stack { display: contents; }
+  .o1 { order: 1; } .o2 { order: 2; } .o3 { order: 3; } .o4 { order: 4; } .o5 { order: 5; } .o6 { order: 6; }
   .del-card, .list-card, .side-card, .warn-card { padding: 20px 18px; }
   .del-head .itile { width: 44px; height: 44px; border-radius: 13px; }
   .del-title { font-size: 22px; }

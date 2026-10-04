@@ -4,53 +4,50 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Page not found — MemoBlok</title>
-  <meta name="description" content="That page does not exist on memoblok.com. Head back to the home page, or get in touch with us." />
+  <meta name="description" content="That page doesn't exist on memoblok.com. Head back to the home page, or get in touch with us." />
   <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#4320C4" />
   <link rel="icon" href="/assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+  <link rel="preload" href="/assets/fonts/NunitoSans-Black.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/site.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header">
-    <nav class="wrap" aria-label="Main">
-      <a href="/" class="brand"><img src="/assets/img/icon.png" alt="" width="32" height="32" />MemoBlok</a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
-      <ul id="nav-links">
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/support.html">Support</a></li>
-        <li><a href="/privacy.html">Privacy</a></li>
-      </ul>
+  <header class="page-head">
+    <div class="deco deco-a" aria-hidden="true"></div>
+    <div class="deco deco-b" aria-hidden="true"></div>
+    <div class="wrap">
+    <nav class="topnav" aria-label="Main">
+      <a href="/" class="brand"><span class="logo-tile"><img src="/assets/img/m-mark-white.svg" alt="" width="40" height="40" /></span><span class="brand-name">MemoBlok</span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><svg width="26" height="20" viewBox="0 0 26 20" fill="none" stroke="#3B2CD9" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M2 2h22M2 10h22M2 18h22"/></svg></button>
+      <ul class="nav-links" id="nav-links"><li><a href="/#how">How it works</a></li><li><a href="/#premium">Premium</a></li><li><a href="/support.html">Support</a></li><li><a href="/privacy.html">Privacy</a></li></ul>
     </nav>
+      <div class="page-title">
+        <p class="eyebrow">404</p>
+        <h1>That page isn't&nbsp;here</h1>
+      </div>
+    </div>
   </header>
 
-  <main id="main" class="wrap center-page">
-    <h1>That page isn't here</h1>
-    <p>
-      The link may be out of date, or the page may have moved. Everything on memoblok.com
-      is one hop away:
-    </p>
-    <p class="hero-actions">
-      <a class="btn" href="/">Go to the home page</a>
-      <a class="btn btn-quiet" href="/support.html">Contact support</a>
-    </p>
+  <main id="main" class="sheet">
+    <div class="wrap">
+
+      <div class="lost">
+        <img src="/assets/img/mascot.webp" alt="" width="220" height="196" />
+        <p>The link may be out of date, or the page has moved. Everything on memoblok.com is one hop&nbsp;away.</p>
+        <div class="lost-actions"><a class="cta cta-primary" href="/">Go to the home page</a><a class="cta cta-secondary" href="/support.html">Get support</a></div>
+      </div>
+    </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <address>
-        <strong>MEMOBLOK, LLC</strong><br />
-        <a href="mailto:ayen@memoblok.com">ayen@memoblok.com</a>
-      </address>
-      <nav aria-label="Footer">
-        <a href="/about.html">About</a> ·
-        <a href="/privacy.html">Privacy</a> ·
-        <a href="/terms.html">Terms</a> ·
-        <a href="/support.html">Support</a> ·
-        <a href="/delete-account.html">Delete your data</a>
-      </nav>
-      <p class="legal">&copy; 2025–<span data-year>2026</span> MEMOBLOK, LLC. All rights reserved.</p>
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <span class="logo-tile"><img src="/assets/img/m-mark-white.svg" alt="" width="36" height="36" /></span>
+      <span class="foot-name">MemoBlok</span>
+      <nav class="foot-nav" aria-label="Footer"><a href="/about.html">About</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/delete-account.html">Delete your data</a></nav>
+      <p class="foot-copy">&copy; 2025&ndash;<span data-year>2026</span> MEMOBLOK,&nbsp;LLC. <br class="m-only" />All rights&nbsp;reserved.</p>
     </div>
   </footer>
 

@@ -11,19 +11,22 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="MemoBlok" />
   <meta property="og:title" content="You've been invited to share a Blok" />
-  <meta property="og:description" content="Someone wants to share a Blok with you on MemoBlok — the app for tracking anything you can count or measure." />
+  <meta property="og:description" content="Someone wants to share a Blok with you on MemoBlok, the app for tracking anything you can count, add up or measure." />
   <meta property="og:image" content="https://www.memoblok.com/assets/img/og.png" />
   <meta property="og:url" content="https://www.memoblok.com/join" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#4320C4" />
   <link rel="icon" href="/assets/img/favicon.png" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+  <link rel="preload" href="/assets/fonts/NunitoSans-Black.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/assets/css/site.css" />
 </head>
 <body>
   <!--
     Served at /join — GitHub Pages resolves the extensionless path to this file
     as a direct 200, which is the URL the association file matches on. A
-    join/index.html directory would work too, but only via a 301 to /join/.
+    join/index.html directory would work too, but only via a 301 to /join/,
+    and iOS does not follow redirects.
 
     The invite token travels in the URL FRAGMENT (…/join#TOKEN) and must stay
     there. A fragment is never sent to a server, which is the whole point:
@@ -39,140 +42,75 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header">
-    <nav class="wrap" aria-label="Main">
-      <a href="/" class="brand"><img src="/assets/img/icon.png" alt="" width="32" height="32" />MemoBlok</a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
-      <ul id="nav-links">
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/support.html">Support</a></li>
-        <li><a href="/privacy.html">Privacy</a></li>
-      </ul>
+  <header class="page-head">
+    <div class="deco deco-a" aria-hidden="true"></div>
+    <div class="deco deco-b" aria-hidden="true"></div>
+    <div class="wrap">
+    <nav class="topnav" aria-label="Main">
+      <a href="/" class="brand"><span class="logo-tile"><img src="/assets/img/m-mark-white.svg" alt="" width="40" height="40" /></span><span class="brand-name">MemoBlok</span></a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><svg width="26" height="20" viewBox="0 0 26 20" fill="none" stroke="#3B2CD9" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M2 2h22M2 10h22M2 18h22"/></svg></button>
+      <ul class="nav-links" id="nav-links"><li><a href="/#how">How it works</a></li><li><a href="/#premium">Premium</a></li><li><a href="/support.html">Support</a></li><li><a href="/privacy.html">Privacy</a></li></ul>
     </nav>
+      <div class="page-title">
+        <p class="eyebrow">Invitation</p>
+        <h1>You've been invited to share&nbsp;a&nbsp;Blok</h1>
+      <p class="page-sub">Someone would like to share one of their Bloks with&nbsp;you.</p>
+      </div>
+    </div>
   </header>
 
-  <main id="main">
-    <section class="hero wrap">
-      <img class="hero-icon" src="/assets/img/icon.png" alt="MemoBlok app icon" width="96" height="96" />
-      <p class="eyebrow">Invitation</p>
-      <h1>You've been invited to share a Blok</h1>
-      <p class="lede">
-        MemoBlok turns the things you do into <strong>Bloks</strong> — habits, spending,
-        workouts, weight, reading, anything you can count or measure. Someone would like
-        to share one of theirs with you.
-      </p>
-      <p class="hero-actions">
-        <span class="chip">Coming soon to iOS and Android</span>
-      </p>
-      <!--
-        App Store badge goes here, and only once the app is actually live.
-        A badge linking nowhere is worse than no badge.
-      -->
-    </section>
+  <main id="main" class="sheet">
+    <div class="wrap">
 
-    <section class="wrap">
-      <div class="prose" style="margin-inline: auto;">
-        <div class="note">
-          <p>
-            <strong>Don't have MemoBlok yet?</strong> Install it, then tap the invite link
-            again. Your phone only looks for the app at the moment you tap, so the first
-            tap couldn't open it and the second one can.
-          </p>
-
-          <!--
-            One instruction either way — open the app and paste the link. The only thing
-            that changes is where the reader gets the link from, and only the browser can
-            tell the two apart, because the token is in the fragment.
-
-            The no-token copy is the one that ships rendered: it is true on any /join URL,
-            so a reader without JavaScript is never shown a link that isn't there.
-          -->
-          <div id="paste-generic">
-            <p>
-              <strong>Already have MemoBlok?</strong> Copy the invite link from wherever you
-              received it, then open the app and go to
-              <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong> to paste it.
-            </p>
-          </div>
-
-          <div id="paste-token" hidden>
-            <p>
-              <strong>Already have MemoBlok?</strong> Copy the link below, then open the app and
-              go to <strong>Settings › Sharing → &ldquo;Have an invite link?&rdquo;</strong>
-              to paste it.
-            </p>
+      <div class="grid3 top">
+        <div class="span2 stack">
+          <section class="card join-card">
+            <h2 class="label">Already have MemoBlok?</h2>
+            <p class="lead-in">Copy this link, open the app, and paste it at <b>Settings › Sharing › Have an invite&nbsp;link?</b></p>
             <!--
-              In an in-app browser the address bar is usually hidden, so this is often the
-              only copy of the link the reader can reach. Selectable text is the floor; the
-              button is a bonus, and some webviews expose no clipboard at all.
+              One instruction either way. Only the browser can tell whether a
+              token is present, because it rides the fragment. The no-token line
+              is the one that ships rendered: it is true on any /join URL, so a
+              reader without JavaScript is never shown a link that isn't there.
             -->
-            <div class="invite-link"><code id="invite-url"></code></div>
-            <p class="copy-row">
-              <button type="button" class="btn btn-quiet" id="copy-btn" hidden>Copy link</button>
-              <span class="small muted" id="copy-status" role="status"></span>
-            </p>
-          </div>
+            <p id="paste-generic">Copy the invite link from the message it arrived&nbsp;in.</p>
+            <!--
+              In an in-app browser the address bar is usually hidden, so this is
+              often the only copy of the link the reader can reach. Selectable
+              text is the floor; the button is a bonus, and some webviews expose
+              no clipboard at all.
+            -->
+            <div class="link-box" id="paste-token" hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F5A70" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><code id="invite-url"></code>
+              <button type="button" class="cta cta-primary cta-sm" id="copy-btn" hidden><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy link</button>
+              <span class="copy-status" id="copy-status" role="status"></span>
+            </div>
+          </section>
+          <section class="card join-card">
+            <h2 class="label">New to MemoBlok?</h2>
+            <p>MemoBlok is coming soon to iOS. Once it's installed, tap the invite link again: your phone only looks for the app at the moment you&nbsp;tap.</p>
+          </section>
         </div>
+        <div class="join-mascot"><img src="/assets/img/mascot.webp" alt="" width="200" height="180" /></div>
       </div>
-    </section>
-
-    <section class="wrap">
-      <div class="section-head">
-        <h2>What sharing means</h2>
-        <p>
-          Accepting an invitation connects exactly one Blok, and nothing else about your
-          account changes.
-        </p>
-      </div>
-
-      <div class="grid grid-2">
-        <article class="card reveal">
-          <h3>It goes both ways</h3>
-          <p>
-            The person who invited you will be able to read the entries you log in that
-            shared Blok, and you'll be able to read theirs.
-          </p>
-        </article>
-
-        <article class="card reveal">
-          <h3>Nothing else crosses</h3>
-          <p>
-            Only the Blok in the invitation is shared. Every other Blok you track stays
-            yours alone, and so does the rest of your account.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section class="wrap">
-      <div class="card" style="text-align: center;">
-        <h2>Not sure about this invitation?</h2>
-        <p class="muted" style="max-width: 48ch; margin-inline: auto;">
-          You never have to accept one, and an invitation that goes unused expires on its
-          own. If something looks wrong, write to us before you accept.
-        </p>
-        <p class="hero-actions">
-          <a class="btn" href="mailto:ayen@memoblok.com">Email us</a>
-          <a class="btn btn-quiet" href="/privacy.html">Read the privacy policy</a>
-        </p>
-      </div>
-    </section>
+      <section class="panel panel-blue means">
+        <h2 class="h2s">What sharing&nbsp;means</h2>
+        <div class="means-grid">
+          <div class="card"><h3 class="means-title">One Blok, nothing else</h3><p class="means-text">Only the Blok in the invitation is shared. Your other Bloks and the rest of your account stay&nbsp;yours.</p></div>
+          <div class="card"><h3 class="means-title">Add or follow along</h3><p class="means-text">You'll see the entries in that Blok, and depending on the invitation you can add your&nbsp;own.</p></div>
+          <div class="card"><h3 class="means-title">Places stay private</h3><p class="means-text">Where an entry was logged never crosses to anyone else. Joining is always&nbsp;free.</p></div>
+        </div>
+      </section>
+      <p class="join-foot">Not sure about this invitation? You never have to accept one, and an unused invitation expires on its own. Something looks wrong? <a href="mailto:support@memoblok.com">Write to us</a> before you&nbsp;accept.</p>
+    </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap">
-      <address>
-        <strong>MEMOBLOK, LLC</strong><br />
-        <a href="mailto:ayen@memoblok.com">ayen@memoblok.com</a>
-      </address>
-      <nav aria-label="Footer">
-        <a href="/about.html">About</a> ·
-        <a href="/privacy.html">Privacy</a> ·
-        <a href="/terms.html">Terms</a> ·
-        <a href="/support.html">Support</a> ·
-        <a href="/delete-account.html">Delete your data</a>
-      </nav>
-      <p class="legal">&copy; 2025–<span data-year>2026</span> MEMOBLOK, LLC. All rights reserved.</p>
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <span class="logo-tile"><img src="/assets/img/m-mark-white.svg" alt="" width="36" height="36" /></span>
+      <span class="foot-name">MemoBlok</span>
+      <nav class="foot-nav" aria-label="Footer"><a href="/about.html">About</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/delete-account.html">Delete your data</a></nav>
+      <p class="foot-copy">&copy; 2025&ndash;<span data-year>2026</span> MEMOBLOK,&nbsp;LLC. <br class="m-only" />All rights&nbsp;reserved.</p>
     </div>
   </footer>
 
