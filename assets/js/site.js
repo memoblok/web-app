@@ -1,5 +1,5 @@
 /* memoblok.com — nav toggle, © year, invite paste flow, legal contents,
-   guarded reveal. */
+   home page motion. */
 (function () {
   "use strict";
 
@@ -98,18 +98,88 @@
     mark();
   }
 
-  /* Reveal on scroll — the ceiling for motion here, and skipped entirely
-     when the visitor asks for reduced motion. --------------------------- */
-  var reveals = document.querySelectorAll(".reveal");
+  /* Home page motion --------------------------------------------------
+     The ceiling for motion on this site, and skipped entirely when the
+     visitor asks for reduced motion. Two parts:
+     · Parallax: the hero's layers drift at their own rates as it scrolls
+       away. site.js only writes --hero-y (pixels scrolled, capped at the
+       hero's height) and --hero-f (the same as a 0-1 fraction); the rates
+       live in site.css.
+     · Reveal: sections and cards below the hero rise in as they reach the
+       viewport. The class is added here, never in the HTML, so the page is
+       complete without JavaScript. Siblings in a group are staggered. --- */
+  var hero = document.querySelector(".home-head");
   var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reveals.length && !still && "IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  if (hero && !still) {
+    var root = document.documentElement, queued = false;
+    var drift = function () {
+      queued = false;
+      var h = hero.offsetHeight, y = Math.min(Math.max(window.scrollY, 0), h);
+      root.style.setProperty("--hero-y", y + "px");
+      root.style.setProperty("--hero-f", (y / h).toFixed(3));
+    };
+    window.addEventListener("scroll", function () {
+      if (!queued) { queued = true; requestAnimationFrame(drift); }
+    }, { passive: true });
+    drift();
+
+    // [selector, variant, stagger between siblings in ms, base delay in ms]
+    var groups = [
+      [".poss-txt", "", 0, 0],
+      [".poss-card", "", 110, 0],
+      [".poss-card .blok", "", 0, 180],
+      [".how > .band, .pair > .band", "", 0, 0],
+      [".band .blok", "", 0, 160],
+      [".hand", "pop", 120, 420],
+      [".ct", "pop", 16, 120],
+      [".rule, .shared", "", 0, 320],
+      [".nt", "right", 160, 200],
+      [".tr", "", 70, 120],
+      [".in-card", "", 0, 280],
+      [".plans", "", 0, 0],
+      [".plan-free, .plan-prem", "", 120, 120],
+      [".li, .lp", "left", 45, 260],
+      [".data", "", 0, 0],
+      [".data-head img", "pop", 0, 150],
+      [".pt", "", 90, 200],
+      [".know", "", 0, 0],
+      [".know .faqd", "", 70, 120],
+      [".closing", "", 0, 0],
+      [".closing-in img", "pop", 0, 200]
+    ];
+    var targets = [];
+    groups.forEach(function (g) {
+      var seen = new Map();
+      Array.prototype.forEach.call(document.querySelectorAll(g[0]), function (el) {
+        if (el.closest(".hero") || el.offsetParent === null) return;
+        // Stagger within the nearest group, not just the direct parent: the
+        // second reminder, for one, sits a level deeper than the first.
+        var group = el.parentNode.closest(".collage, .tr-grid, .plan-free, .plan-prem, .pts, .faq, .stack-nt, .poss, .pair, .how, .band") || el.parentNode;
+        var i = seen.get(group) || 0;
+        seen.set(group, i + 1);
+        el.classList.add("reveal");
+        if (g[1]) el.classList.add("reveal-" + g[1]);
+        el.style.setProperty("--d", Math.min(g[3] + i * g[2], 900) + "ms");
+        targets.push(el);
       });
-    }, { rootMargin: "0px 0px -10% 0px" });
-    Array.prototype.forEach.call(reveals, function (el) { io.observe(el); });
-  } else {
-    Array.prototype.forEach.call(reveals, function (el) { el.classList.add("in"); });
+    });
+    var settle = function (el) {
+      // Hand the element back to the hover transitions once it has landed.
+      el.addEventListener("transitionend", function done(e) {
+        if (e.target !== el) return;
+        el.classList.add("settled");
+        el.removeEventListener("transitionend", done);
+      });
+    };
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { settle(e.target); e.target.classList.add("in"); io.unobserve(e.target); }
+        });
+      }, { rootMargin: "0px 0px -8% 0px" });
+      targets.forEach(function (el) { io.observe(el); });
+    } else {
+      targets.forEach(function (el) { el.classList.add("in", "settled"); });
+    }
   }
 })();

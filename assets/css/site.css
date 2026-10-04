@@ -224,7 +224,6 @@ a.card { display: block; text-decoration: none; color: inherit; }
   display: inline-flex; align-items: center; gap: 6px;
   font: 800 17px var(--font); color: var(--accent); text-decoration: none;
 }
-.cta-primary:active, .cta-light:active, .cta-secondary:active { transform: translateY(1px); }
 
 /* --- FAQ rows ------------------------------------------------------------- */
 .faq { display: flex; flex-direction: column; gap: 10px; }
@@ -614,6 +613,97 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .foot-home { border-top: 0; }
 
 /* ==========================================================================
+   Hover and press (owner, 2026-10-04: every link and control answers the
+   pointer). Lifts use the `translate` property so they compose with the
+   home page's entrance animations, which own `transform`.
+   ========================================================================== */
+a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease,
+    text-decoration-color 160ms ease, translate 180ms cubic-bezier(.2, .7, .2, 1),
+    rotate 180ms ease, scale 180ms ease, opacity 160ms ease;
+}
+.cta:active { translate: 0 1px; }
+.prose a, .contact-note a, .join-foot a, .codes-help a, .about-card a, .contact-card a {
+  text-underline-offset: 2px; text-decoration-thickness: 1px;
+}
+@media (hover: hover) {
+  .prose a:hover, .contact-note a:hover, .join-foot a:hover, .codes-help a:hover, .contact-card a:hover {
+    text-decoration-thickness: 2px;
+  }
+  a.cta-primary:hover, button.cta-primary:hover { background: #5230d8; color: var(--white); translate: 0 -2px; }
+  a.cta-light:hover { background: #f7f4ff; color: var(--brand); translate: 0 -2px; }
+  a.cta-secondary:hover { background: var(--faq); color: var(--accent); translate: 0 -2px; }
+  .cta:active:hover { translate: 0 1px; }
+  a.cta-link:hover { color: var(--accent-hover); }
+  a.cta-link:hover .cta-arrow { translate: 4px 0; }
+  .cta-arrow { display: inline-block; }
+
+  .nav-links a:hover { color: var(--white); opacity: 0.78; }
+  .brand:hover .logo-tile { rotate: -6deg; scale: 1.05; }
+  .foot-nav a:hover { color: var(--accent); }
+  .toc a:hover { background: var(--link-box); color: var(--accent); }
+  .faqd > summary:hover { color: var(--accent); }
+  .faqd:hover { border-color: #3b2cd940; border-bottom-color: #3b2cd955; }
+  a.link-card:hover { translate: 0 -3px; border-color: #3b2cd940; border-bottom-color: #3b2cd966; }
+  .ct:hover { scale: 1.08; rotate: -3deg; }
+}
+
+/* ==========================================================================
+   Home page motion. Skipped entirely when the visitor asks for less motion.
+   Above the fold, the hero plays once on load. Lower sections get a
+   `.reveal` class from site.js (so nothing is hidden without JavaScript)
+   and rise in as they scroll into view. The hero's parallax is set from
+   site.js through --hero-y.
+   ========================================================================== */
+@keyframes mb-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes mb-drop {
+  0% { opacity: 0; transform: translateY(-40px) rotate(-12deg) scale(0.8); }
+  60% { opacity: 1; transform: translateY(6px) rotate(4deg) scale(1.03); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes mb-bob { 0%, 100% { transform: none; } 50% { transform: translateY(-6px) rotate(-2deg); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-txt > * { animation: mb-rise 700ms cubic-bezier(.2, .7, .2, 1) both; }
+  .hero-txt > :nth-child(2) { animation-delay: 90ms; }
+  .hero-txt > :nth-child(3) { animation-delay: 180ms; }
+  .hero-txt > :nth-child(4) { animation-delay: 240ms; }
+  .glimpse { animation: mb-rise 800ms 120ms cubic-bezier(.2, .7, .2, 1) both; }
+  .glimpse-list .blok { animation: mb-rise 600ms cubic-bezier(.2, .7, .2, 1) both; }
+  .glimpse-list .blok:nth-child(1) { animation-delay: 300ms; }
+  .glimpse-list .blok:nth-child(2) { animation-delay: 390ms; }
+  .glimpse-list .blok:nth-child(3) { animation-delay: 480ms; }
+  .glimpse-list .blok:nth-child(4) { animation-delay: 570ms; }
+  .glimpse-list .blok:nth-child(5) { animation-delay: 660ms; }
+  .hero-mascot { animation: mb-drop 900ms 750ms cubic-bezier(.3, .8, .3, 1) both, mb-bob 4.5s 1.8s ease-in-out infinite; }
+
+  /* Parallax: the headline drifts down and fades, the panel lags behind
+     it, and the mascot floats up out of the corner. */
+  .hero-txt { translate: 0 calc(var(--hero-y, 0px) * 0.32); opacity: calc(1 - var(--hero-f, 0) * 0.6); }
+  .glimpse-wrap { translate: 0 calc(var(--hero-y, 0px) * 0.14); }
+  .hero-mascot { translate: 0 calc(var(--hero-y, 0px) * -0.18); }
+
+  .reveal { opacity: 0; translate: 0 28px; transition: opacity 650ms ease, translate 750ms cubic-bezier(.2, .7, .2, 1), scale 650ms cubic-bezier(.3, 1.4, .5, 1); transition-delay: var(--d, 0ms); }
+  .reveal.reveal-pop { translate: none; scale: 0.6; }
+  .reveal.reveal-right { translate: 40px 0; }
+  .reveal.reveal-left { translate: -24px 0; }
+  .reveal.in { opacity: 1; translate: 0 0; scale: 1; }
+  /* Once in, hover lifts take over the property again at their own speed. */
+  .reveal.settled {
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease,
+      translate 180ms cubic-bezier(.2, .7, .2, 1), rotate 180ms ease, scale 180ms ease, opacity 160ms ease;
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 768px) {
+  /* The phone hero is a short panel: keep the drift small so the headline
+     never slides into the Bloks below it. */
+  .hero-txt { translate: 0 calc(var(--hero-y, 0px) * 0.08); }
+  .glimpse-wrap { translate: 0 calc(var(--hero-y, 0px) * 0.06); }
+  .hero-mascot { translate: 0 calc(var(--hero-y, 0px) * -0.1); }
+}
+.home-sheet { z-index: 10; }
+
+/* ==========================================================================
    Phone (≤ 768px): the mobile frames
    ========================================================================== */
 @media (max-width: 768px) {
@@ -850,6 +940,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
     background: var(--white); border: 1px solid var(--hair); border-bottom: 3px solid var(--lip);
   }
   .pt:last-child { border-right: 1px solid var(--hair); }
+  .pt svg { flex: none; }
   .pt-t { font-size: 17px; }
   .pt-s { margin-top: 2px; font-size: 15px; }
   .data-cta { margin-top: 12px; }

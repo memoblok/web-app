@@ -57,7 +57,13 @@ The rules that carry the look:
    containers take a `#2A1290` lip. Only the Blok card and its small marks keep
    the app's own shadows.
 2. **One CTA system.** `.cta-primary`, `.cta-light`, `.cta-secondary` and
-   `.cta-link`, always a pill, and colours that don't change on hover.
+   `.cta-link`, always a pill. Every link and control answers hover with a small
+   lift or tint (owner, 2026-10-04), inside `@media (hover: hover)`.
+4. **Motion is the home page's only.** The hero plays once on load and has a
+   parallax; sections and cards rise in as they scroll into view. `site.js`
+   adds the `.reveal` class, so nothing is hidden without JavaScript, and all
+   of it is skipped under `prefers-reduced-motion`. Lifts use the CSS
+   `translate` property so they compose with animations that own `transform`.
 3. **The app UI is rebuilt from the app's components**, never screenshotted:
    Blok cards (`Activity.tsx`), Trends, Insights, the Repeat rule and reminder
    wording. The figures are illustrative and must stay consistent with each other.
