@@ -136,6 +136,9 @@
       [".nt", "right", 160, 200],
       [".tr", "", 70, 120],
       [".in-card", "", 0, 280],
+      [".cmp", "", 0, 120],
+      [".cn", "", 0, 240],
+      [".cn-row", "left", 110, 420],
       [".plans", "", 0, 0],
       [".plan-free, .plan-prem", "", 120, 120],
       [".li, .lp", "left", 45, 260],
@@ -154,7 +157,7 @@
         if (el.closest(".hero") || el.offsetParent === null) return;
         // Stagger within the nearest group, not just the direct parent: the
         // second reminder, for one, sits a level deeper than the first.
-        var group = el.parentNode.closest(".collage, .tr-grid, .plan-free, .plan-prem, .pts, .faq, .stack-nt, .poss, .pair, .how, .band") || el.parentNode;
+        var group = el.parentNode.closest(".collage, .tr-grid, .cn, .plan-free, .plan-prem, .pts, .faq, .stack-nt, .poss, .pair, .how, .band") || el.parentNode;
         var i = seen.get(group) || 0;
         seen.set(group, i + 1);
         el.classList.add("reveal");
