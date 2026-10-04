@@ -478,6 +478,9 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .band .txt { flex: 1 1 380px; min-width: 0; }
 .band .vis { flex: 1 1 460px; min-width: 0; position: relative; }
 .vis-annot { padding: 56px 40px 56px 140px; }
+/* The hand-drawn arrows and labels sit over the card, so their tips stay visible
+   where they reach into it (owner, 2026-10-04). */
+.vis-annot > svg, .vis-annot > .hand { z-index: 2; }
 .collage {
   display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px;
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 70%, rgba(0, 0, 0, 0.06) 93%, transparent 100%);
