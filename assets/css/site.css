@@ -348,7 +348,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .legal-main { flex: 1 1 560px; max-width: 780px; min-width: 0; }
 .updated { margin-bottom: 22px; font: 700 14px var(--font); color: var(--caption); }
 .short { margin-bottom: 8px; padding: 26px 30px; border-radius: 20px; background: var(--lilac); border: 1px solid var(--hair-soft); border-bottom: 3px solid var(--lip); }
-.short .label { margin-bottom: 6px; }
+.prose .short p.label { margin: 0 0 6px; font: 900 13px var(--font); letter-spacing: 1.6px; color: var(--brand); }
 .prose .short p:not(.label) { margin: 0; font: 600 19px/1.55 var(--font); color: var(--heading); }
 .prose h2 { margin: 40px 0 12px; font: 800 26px/1.2 var(--font); color: var(--heading); scroll-margin-top: 24px; }
 .prose p, .prose li { font: 400 17px/1.65 var(--font); color: var(--prose); }
@@ -496,9 +496,11 @@ a.card { display: block; text-decoration: none; color: inherit; }
   .lost-actions .cta { display: flex; }
 
   /* Legal: the contents list folds into a row above the text */
-  .legal { display: block; }
-  .legal-side { position: static; }
-  .updated { margin-bottom: 14px; font-size: 13px; }
+  .legal { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .legal-main { display: contents; }
+  .updated { order: 1; margin-bottom: 14px; font-size: 13px; }
+  .legal-side { order: 2; flex: none; position: static; }
+  .legal-main > .prose { order: 3; }
   .toc {
     margin-bottom: 18px; padding: 0; border-radius: 12px;
   }
@@ -513,6 +515,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
   .toc a { margin: 0 6px; }
   .short { padding: 20px; }
   .prose .short p:not(.label) { font-size: 17px; }
+  .prose .short p.label { font-size: 12px; }
   .prose h2 { margin: 32px 0 10px; font-size: 22px; }
   .prose p, .prose li { font: 400 16px/1.6 var(--font); }
 
