@@ -57,6 +57,7 @@
   --hair-soft: #3a3a3a1a;
   --hair-faint: #3a3a3a14;
   --lip: #5c574e2e;
+  --paper-lip: #dedad3; /* --lip laid over the app's paper #FBF7F0, made solid for purple grounds */
 
   /* The app's own ink, for rebuilt app components */
   --ink: #3a3a3a;
@@ -396,7 +397,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .glimpse {
   height: 500px; overflow: hidden; padding: 18px 16px 0; border-radius: 32px;
   background: #fbf7f0 url(../img/grain.png) repeat; background-size: 128px;
-  border: 1px solid rgba(255, 255, 255, 0.35); border-bottom: 3px solid var(--brand-lip);
+  border: 1px solid rgba(255, 255, 255, 0.35); border-bottom: 3px solid var(--paper-lip);
 }
 .glimpse-list {
   display: flex; flex-direction: column; gap: 8px; height: 100%;
