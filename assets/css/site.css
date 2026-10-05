@@ -593,6 +593,13 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .cn-tile { flex: none; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 8px; border: 1.5px solid var(--white); box-shadow: 0 2px 1.5px rgba(92, 87, 78, 0.26); }
 .cn-tile img { width: 22px; height: 22px; object-fit: contain; }
 
+/* The app's mascot poses, each on the card the app gives it (SectionMascot):
+   bounce on Trends, celebrate on Insights, dance on Compare, laugh on the shared
+   Blok. Cropped flat at the bottom, they sit ON the card's top edge, in front of
+   it, so nothing covers them (owner, 2026-10-04). */
+.perch-host { position: relative; }
+.perch { position: absolute; bottom: 100%; right: 18px; z-index: 2; width: 72px; height: auto; pointer-events: none; }
+
 /* Free and Premium */
 .plans {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 0 28px;
@@ -600,7 +607,10 @@ a.card { display: block; text-decoration: none; color: inherit; }
   border: 1px solid var(--hair-soft); border-bottom: 3px solid var(--lip);
 }
 .plans-a { display: contents; }
-.plans-h { grid-column: 1 / -1; margin-bottom: 28px; }
+.plans-top { grid-column: 1 / -1; position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+/* The three little Bloks (the app's first-run stack) perch on the corner of
+   the Go further card, in front of it, never behind (owner, 2026-10-04). */
+.plans-stack { position: relative; z-index: 2; flex: none; width: 96px; height: auto; margin: -20px 28px -42px 0; }
 .plan-free { padding: 30px 40px 26px; border-radius: 20px; background: var(--white); border: 1px solid var(--hair); border-bottom: 3px solid var(--lip); }
 .plan-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .plan-name { font: 800 30px var(--font); color: var(--heading); }
@@ -617,7 +627,9 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .plan-prem .plan-pill { background: #ede6ff; }
 .lp { display: flex; align-items: center; gap: 22px; padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.16); font: 600 18px/1.3 var(--font); color: var(--white); }
 .lp:nth-last-child(2) { border-bottom: 0; }
-.trial-wrap { margin-top: auto; padding-top: 18px; }
+ /* The paywall's own graphic fills the room the card's stretch leaves. */
+.prem-art { align-self: flex-end; width: 132px; height: auto; margin: auto 8px -6px 0; padding-top: 16px; }
+.trial-wrap { padding-top: 18px; }
 .trial { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.12); }
 .trial-txt { display: flex; flex-direction: column; gap: 2px; }
 .trial-h { font: 800 17px/1.3 var(--font); color: var(--white); }
@@ -932,6 +944,8 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
   .vis-tap { padding: 44px 0 0; }
   .pair { gap: 16px; }
   .vis-bills, .vis-share { padding: 22px 0 0; }
+  .vis-share { padding-top: 48px; }
+  .perch { width: 60px; right: 14px; }
   .rule { padding: 8px 14px 8px 8px; border-radius: 14px; }
   .vis-nudge { padding-top: 30px; }
   .nudge-motion { right: -8px; top: 6px; width: 36px; height: 36px; }
@@ -958,7 +972,8 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
 
   .plans { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; padding: 0; background: none; border: 0; border-radius: 0; }
   .plans-a { display: block; padding: 22px 18px; border-radius: 22px; background: var(--yellow); border: 1px solid var(--hair-soft); border-bottom: 3px solid var(--lip); }
-  .plans-h { margin-bottom: 16px; }
+  .plans-top { align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+  .plans-stack { width: 64px; margin: -6px 0 0; }
   .plan-free { padding: 16px 20px 8px; border-radius: 16px; }
   .plan-head { margin-bottom: 6px; }
   .plan-name { font-size: 22px; }
@@ -969,6 +984,7 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
   .lp { padding: 11px 0; font-size: 17px; }
   .lp svg { width: 26px; height: 26px; }
   .trial-wrap { padding-top: 0; }
+  .prem-art { width: 96px; margin: 4px 4px -4px 0; padding-top: 0; }
   .trial { gap: 12px; margin: 8px 0; padding: 12px 14px; }
   .trial svg { flex: none; }
   .trial-h { font-size: 16px; }
