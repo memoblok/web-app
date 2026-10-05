@@ -467,7 +467,9 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .poss-eyebrow { font: 900 14px var(--font); letter-spacing: 2px; color: var(--accent); }
 .poss-txt .h2 { margin-top: 22px; }
 .poss-txt .sub { font-size: 20px; }
-.poss-card { padding: 30px 36px 36px; border-radius: 26px; border: 1px solid var(--hair-soft); border-bottom: 3px solid var(--lip); }
+.poss-card { padding: 30px 36px 36px; border-radius: 26px; border: 1px solid var(--hair-soft); border-bottom: 3px solid var(--lip); display: flex; flex-direction: column; align-items: flex-start; }
+/* Headings run to different lengths; the Blok sits on the card's floor so side-by-side examples line up. */
+.poss-card .blok { align-self: stretch; margin-top: auto; }
 
 /* Feature bands */
 .how { display: flex; flex-direction: column; gap: 22px; margin-top: 22px; }
@@ -491,6 +493,23 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .ct.d0 { background: #ffebd6; } .ct.d1 { background: #e7f4dd; } .ct.d2 { background: #e4eefa; } .ct.d3 { background: #f1ecfd; }
 .ct.d4 { background: #fde8ef; } .ct.d5 { background: #e3f4f1; } .ct.d6 { background: #fff4d6; } .ct.d7 { background: #ede9fb; }
 .vis-tap { padding: 40px 40px 30px 60px; }
+.vis-last { padding: 80px 40px 10px 60px; }
+.vis-last > svg, .vis-last > .hand { z-index: 2; }
+.last-stack { display: flex; flex-direction: column; gap: 10px; }
+.vis-goals { padding: 10px 40px 10px 60px; }
+.goal-list { display: flex; flex-direction: column; gap: 16px; }
+/* Chips sitting on a tinted card or band: white, with the card edge and lip,
+   so they never melt into a purple ground. */
+.poss-card .chip, .goal-item .chip { background: var(--white); border: 1px solid var(--hair); border-bottom: 3px solid var(--lip); }
+.goal-item .chip { margin: 0 0 8px 6px; }
+/* The app's final-stretch countdown (Activity.tsx timeLeftCaption): the + ring
+   lifts 8px and the time left sits under it in deep orange. */
+.qa-urgent > svg, .qa-urgent > .zap { translate: 0 -8px; }
+.tl {
+  position: absolute; left: -12px; right: -12px; top: 33px; height: 24px;
+  display: flex; align-items: center; justify-content: center; white-space: nowrap;
+  font: 700 11px var(--font); letter-spacing: 0.2px; text-transform: uppercase; color: #9a3412;
+}
 .pair { display: flex; flex-wrap: wrap; gap: 22px; align-items: stretch; }
 .band-half { flex: 1 1 460px; flex-direction: column; align-items: stretch; justify-content: space-between; gap: 26px; padding: 48px; }
 .band-half .txt, .band-half .vis { flex: none; }
@@ -966,6 +985,8 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
   .ct.m0 { background: #ffebd6; } .ct.m1 { background: #e7f4dd; } .ct.m2 { background: #e4eefa; } .ct.m3 { background: #f1ecfd; }
   .ct.m4 { background: #fde8ef; } .ct.m5 { background: #e3f4f1; } .ct.m6 { background: #fff4d6; } .ct.m7 { background: #ede9fb; }
   .vis-tap { padding: 44px 0 0; }
+  .vis-last { padding: 80px 0 0; }
+  .vis-goals { padding: 22px 0 0; }
   .pair { gap: 16px; }
   .vis-bills, .vis-share { padding: 22px 0 0; }
   .perch { width: 60px; right: 14px; }

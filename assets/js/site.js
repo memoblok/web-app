@@ -116,7 +116,7 @@
       [".poss-card", "", 110, 0],
       [".poss-card .blok", "", 0, 180],
       [".how > .band, .pair > .band", "", 0, 0],
-      [".band .blok", "", 0, 160],
+      [".band .blok", "", 90, 160],
       [".hand", "pop", 120, 420],
       [".ct", "pop", 16, 120],
       [".rule, .shared", "", 0, 320],
