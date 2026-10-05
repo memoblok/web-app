@@ -699,8 +699,11 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
    Home page motion. Skipped entirely when the visitor asks for less motion.
    Above the fold, the hero plays once on load. Lower sections get a
    `.reveal` class from site.js (so nothing is hidden without JavaScript)
-   and rise in as they scroll into view. The hero's parallax is set from
-   site.js through --hero-y.
+   and rise in as they scroll into view. The hero's parallax is a CSS
+   scroll-driven animation: the browser runs it alongside the scroll itself,
+   so it can't lag behind a finger the way a JavaScript scroll handler does
+   on iOS. Browsers without scroll timelines (iOS before 26) simply show a
+   still hero.
    ========================================================================== */
 @keyframes mb-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 @keyframes mb-drop {
@@ -724,11 +727,10 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
   .glimpse-list .blok:nth-child(5) { animation-delay: 660ms; }
   .hero-mascot { animation: mb-drop 900ms 750ms cubic-bezier(.3, .8, .3, 1) both, mb-bob 4.5s 1.8s ease-in-out infinite; }
 
-  /* Parallax: the headline drifts down and fades, the panel lags behind
-     it, and the mascot floats up out of the corner. */
-  .hero-txt { translate: 0 calc(var(--hero-y, 0px) * 0.32); opacity: calc(1 - var(--hero-f, 0) * 0.6); }
-  .glimpse-wrap { translate: 0 calc(var(--hero-y, 0px) * 0.14); }
-  .hero-mascot { translate: 0 calc(var(--hero-y, 0px) * -0.18); }
+  /* The three moving pieces get their own layers, so they slide instead of
+     repainting (the panel carries shadows, grain and a fade mask). */
+  .hero-txt, .glimpse-wrap { will-change: translate; }
+  .hero-mascot { will-change: transform, translate; }
 
   .reveal { opacity: 0; translate: 0 28px; transition: opacity 650ms ease, translate 750ms cubic-bezier(.2, .7, .2, 1), scale 650ms cubic-bezier(.3, 1.4, .5, 1); transition-delay: var(--d, 0ms); }
   .reveal.reveal-pop { translate: none; scale: 0.6; }
@@ -745,12 +747,35 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
       translate 180ms cubic-bezier(.2, .7, .2, 1), rotate 180ms ease, scale 180ms ease, opacity 160ms ease;
   }
 }
+/* Parallax over the first 720px of scroll: the headline drifts down and
+   fades, the panel lags behind it, and the mascot floats up out of the corner.
+   The distances keep the old rates (0.32, 0.14 and -0.18 of the scroll). */
+@keyframes mb-drift { to { translate: 0 var(--drift); opacity: var(--drift-fade, 1); } }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-txt { --drift: 230px; --drift-fade: 0.4; }
+    .glimpse-wrap { --drift: 100px; }
+    .hero-mascot { --drift: -130px; }
+    .hero-txt, .glimpse-wrap {
+      animation: mb-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 720px;
+    }
+    /* The mascot keeps its drop-in and bob; the drift is a third animation on
+       its own timeline. The shorthand resets the timeline, so it comes first. */
+    .hero-mascot {
+      animation: mb-drop 900ms 750ms cubic-bezier(.3, .8, .3, 1) both, mb-bob 4.5s 1.8s ease-in-out infinite, mb-drift linear both;
+      animation-timeline: auto, auto, scroll(root);
+      animation-range: normal, normal, 0px 720px;
+    }
+  }
+}
 @media (prefers-reduced-motion: no-preference) and (max-width: 768px) {
   /* The phone hero is a short panel: keep the drift small so the headline
      never slides into the Bloks below it. */
-  .hero-txt { translate: 0 calc(var(--hero-y, 0px) * 0.08); }
-  .glimpse-wrap { translate: 0 calc(var(--hero-y, 0px) * 0.06); }
-  .hero-mascot { translate: 0 calc(var(--hero-y, 0px) * -0.1); }
+  .hero-txt { --drift: 56px; --drift-fade: 0.6; }
+  .glimpse-wrap { --drift: 42px; }
+  .hero-mascot { --drift: -70px; }
 }
 .home-sheet { z-index: 10; }
 #how, #premium, #possibilities { scroll-margin-top: 32px; }

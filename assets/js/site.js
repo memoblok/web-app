@@ -101,28 +101,15 @@
   /* Home page motion --------------------------------------------------
      The ceiling for motion on this site, and skipped entirely when the
      visitor asks for reduced motion. Two parts:
-     · Parallax: the hero's layers drift at their own rates as it scrolls
-       away. site.js only writes --hero-y (pixels scrolled, capped at the
-       hero's height) and --hero-f (the same as a 0-1 fraction); the rates
-       live in site.css.
+     · Parallax: pure CSS now (a scroll-driven animation in site.css), so
+       nothing here runs on scroll. A JavaScript scroll handler lagged a
+       frame behind the finger on iOS and restyled the whole page per frame.
      · Reveal: sections and cards below the hero rise in as they reach the
        viewport. The class is added here, never in the HTML, so the page is
        complete without JavaScript. Siblings in a group are staggered. --- */
   var hero = document.querySelector(".home-head");
   var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (hero && !still) {
-    var root = document.documentElement, queued = false;
-    var drift = function () {
-      queued = false;
-      var h = hero.offsetHeight, y = Math.min(Math.max(window.scrollY, 0), h);
-      root.style.setProperty("--hero-y", y + "px");
-      root.style.setProperty("--hero-f", (y / h).toFixed(3));
-    };
-    window.addEventListener("scroll", function () {
-      if (!queued) { queued = true; requestAnimationFrame(drift); }
-    }, { passive: true });
-    drift();
-
     // [selector, variant, stagger between siblings in ms, base delay in ms]
     var groups = [
       [".poss-txt", "", 0, 0],
