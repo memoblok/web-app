@@ -593,10 +593,9 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .cn-tile { flex: none; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 8px; border: 1.5px solid var(--white); box-shadow: 0 2px 1.5px rgba(92, 87, 78, 0.26); }
 .cn-tile img { width: 22px; height: 22px; object-fit: contain; }
 
-/* The app's mascot poses, each on the card the app gives it (SectionMascot):
-   bounce on Trends, celebrate on Insights, dance on Compare, laugh on the shared
-   Blok. Cropped flat at the bottom, they sit ON the card's top edge, in front of
-   it, so nothing covers them (owner, 2026-10-04). */
+/* A mascot pose sitting ON a card's top edge, in front of it, so nothing covers
+   it. Used sparingly: one per section at most, and only a few on the page
+   (owner, 2026-10-04). Today only Compare's dance, as in the app. */
 .perch-host { position: relative; }
 .perch { position: absolute; bottom: 100%; right: 18px; z-index: 2; width: 72px; height: auto; pointer-events: none; }
 
@@ -944,7 +943,6 @@ a, .cta, .faqd > summary, .toc a, .link-card, .logo-tile, .ct, .cta-arrow {
   .vis-tap { padding: 44px 0 0; }
   .pair { gap: 16px; }
   .vis-bills, .vis-share { padding: 22px 0 0; }
-  .vis-share { padding-top: 48px; }
   .perch { width: 60px; right: 14px; }
   .rule { padding: 8px 14px 8px 8px; border-radius: 14px; }
   .vis-nudge { padding-top: 30px; }
