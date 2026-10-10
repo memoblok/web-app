@@ -20,6 +20,114 @@
     });
   }
 
+  /* Sticky bar -------------------------------------------------------------
+     A copy of the header's nav, fixed to the top, shown once the real one has
+     scrolled out of view. A copy rather than the nav itself, so the header
+     keeps its place and nothing below it jumps. Hidden copies are inert, so
+     keyboard and screen-reader users meet one nav at a time. ------------- */
+  var realNav = document.querySelector(".page-head .topnav");
+  if (realNav && "IntersectionObserver" in window) {
+    var bar = document.createElement("div");
+    bar.className = "stickybar";
+    bar.setAttribute("aria-hidden", "true");
+    bar.inert = true;
+    var inner = document.createElement("div");
+    inner.className = "wrap";
+    var nav = realNav.cloneNode(true);
+    nav.setAttribute("aria-label", "Main (pinned)");
+    var barLinks = nav.querySelector(".nav-links");
+    var barToggle = nav.querySelector(".nav-toggle");
+    if (barLinks) { barLinks.id = "nav-links-bar"; barLinks.classList.remove("open"); }
+    var closeBarMenu = function () {
+      if (barLinks) barLinks.classList.remove("open");
+      if (barToggle) barToggle.setAttribute("aria-expanded", "false");
+    };
+    if (barToggle && barLinks) {
+      barToggle.setAttribute("aria-controls", "nav-links-bar");
+      barToggle.setAttribute("aria-expanded", "false");
+      barToggle.addEventListener("click", function () {
+        var open = barLinks.classList.toggle("open");
+        barToggle.setAttribute("aria-expanded", String(open));
+      });
+      barLinks.addEventListener("click", function (e) { if (e.target.closest("a")) closeBarMenu(); });
+    }
+    inner.appendChild(nav);
+    bar.appendChild(inner);
+    document.body.appendChild(bar);
+    new IntersectionObserver(function (entries) {
+      var show = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+      bar.classList.toggle("shown", show);
+      bar.setAttribute("aria-hidden", String(!show));
+      bar.inert = !show;
+      if (!show) closeBarMenu();
+    }).observe(realNav);
+  }
+
+  /* No orphans ------------------------------------------------------------
+     Ties the last two words of every heading, paragraph and list item with a
+     no-break space, so a block's final word never sits alone on a line. Done
+     here rather than by hand in the HTML, so new copy is covered too. Skips
+     anything already tied and anything inside a script-built bar. ------- */
+  Array.prototype.forEach.call(document.querySelectorAll("h1, h2, h3, p, li, summary"), function (el) {
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    var last = null, node;
+    while ((node = walker.nextNode())) { if (/\S/.test(node.data)) last = node; }
+    if (!last) return;
+    var text = last.data.replace(/\s+$/, "");
+    // Already tied by hand ("Blok&nbsp;it"): leave it, or a third word joins.
+    if (/\u00a0[^\s\u00a0]*$/.test(text)) return;
+    var i = text.lastIndexOf(" ");
+    // Only within one text node, and only when a word precedes the last one
+    // there: tying across tags would need restructuring the markup.
+    if (i > 0 && /\S/.test(text.slice(0, i))) last.data = text.slice(0, i) + "\u00a0" + text.slice(i + 1) + last.data.slice(text.length);
+  });
+
+  /* No lone words: the safety net ----------------------------------------
+     The CSS balances headings and the tie above handles a block's last word,
+     but a short heading in a narrow card can still leave one word alone on a
+     line ("Places / stay private"). After layout, any heading or list item
+     that does is shrunk a step at a time, never below 85% of its size, until
+     it doesn't. Re-run whenever the window changes width. ---------------- */
+  var fitTargets = Array.prototype.filter.call(
+    document.querySelectorAll("h1, h2, h3, li, summary"),
+    function (el) { return !el.closest(".stickybar, .nav-links"); }
+  );
+  var loneWord = function (el) {
+    var range = document.createRange(), tops = [], counts = [];
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), node, m, re;
+    while ((node = walker.nextNode())) {
+      re = /[^\s\u00a0]+/g;
+      while ((m = re.exec(node.data))) {
+        range.setStart(node, m.index); range.setEnd(node, m.index + m[0].length);
+        var rect = range.getClientRects()[0];
+        if (!rect) continue;
+        var top = Math.round(rect.top), i = tops.findIndex(function (t) { return Math.abs(t - top) < 4; });
+        if (i < 0) { tops.push(top); counts.push(1); } else counts[i] += 1;
+      }
+    }
+    return counts.length > 1 && counts.indexOf(1) >= 0;
+  };
+  var fitAll = function () {
+    fitTargets.forEach(function (el) {
+      el.style.fontSize = "";
+      if (!el.offsetParent || !loneWord(el)) return;
+      var base = parseFloat(getComputedStyle(el).fontSize), size = base;
+      while (size > base * 0.85 && loneWord(el)) {
+        size -= Math.max(0.5, base * 0.02);
+        el.style.fontSize = size + "px";
+      }
+      if (loneWord(el)) el.style.fontSize = "";   // couldn't fix it; don't shrink for nothing
+    });
+  };
+  var lastWidth = 0, fitQueued = false;
+  var queueFit = function () {
+    if (window.innerWidth === lastWidth || fitQueued) return;
+    fitQueued = true;
+    requestAnimationFrame(function () { fitQueued = false; lastWidth = window.innerWidth; fitAll(); });
+  };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(queueFit);
+  window.addEventListener("resize", queueFit, { passive: true });
+
   /* © year --------------------------------------------------------------- */
   var year = String(new Date().getFullYear());
   Array.prototype.forEach.call(document.querySelectorAll("[data-year]"), function (el) {
